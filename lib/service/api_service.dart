@@ -23,6 +23,7 @@ class ApiService {
     try {
       Response response = await _dio.get("/products");
       final data = response.data;
+      print(response.data);
       if (data is List) {
         return data.map((item) => ProductModel.fromMap(item)).toList();
       } else {

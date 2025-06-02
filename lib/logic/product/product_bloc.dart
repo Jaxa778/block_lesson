@@ -16,6 +16,7 @@ class ProductBloc extends Bloc<ProductEvent, ProductState> {
         final products = await ApiService().getProducts();
         emit(ProductLoaded(products));
       } catch (e) {
+        print(e);
         emit(ProductError("Failed to load products"));
       }
     });

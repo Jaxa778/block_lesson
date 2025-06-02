@@ -167,9 +167,9 @@ class _HomeScreenState extends State<HomeScreen> {
                       itemBuilder: (context, index) {
                         final product = state.products[index];
                         return ProductWidget(
-                          productName: product.title,
-                          productImage: product.image,
-                          productPrice: "\$${product.price.toStringAsFixed(2)}",
+                          productName: product.title ?? "Unknown",
+                          productImage: product.image ?? "",
+                          productPrice: "\$${product.price?.toStringAsFixed(2) ?? "0.00"}",
                         );
                       },
                     ),
