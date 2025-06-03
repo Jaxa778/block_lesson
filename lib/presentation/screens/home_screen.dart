@@ -5,6 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
+import '../../logic/app/dependency_injection.dart';
+
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
 
@@ -17,9 +19,18 @@ class _HomeScreenState extends State<HomeScreen> {
     viewportFraction: 0.85, // Keyingi page'ning bir qismi ko'rinadi
     initialPage: 0,
   );
+  
+  @override
+  void didChangeDependencies() {
+    context.read<ProductBloc>().add(LoadProductsEvent());
+    super.didChangeDependencies();
+  }
 
   @override
   Widget build(BuildContext context) {
+
+    // GetIt orqali BLoC ni olish
+
     return BlocBuilder<ProductBloc, ProductState>(
       builder: (context, state) {
         return Scaffold(
@@ -148,8 +159,10 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                 ],
               ),
-              ...[
-                if (state is ProductLoading)
+              ...[ 
+                if (state is ProductInitial)
+                Center(child: CircularProgressIndicator(),)
+               else if (state is ProductLoading)
                   Center(child: CircularProgressIndicator())
                 else if (state is ProductError)
                   Center(child: Text("Error: ${state.message}"))
